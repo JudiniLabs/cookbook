@@ -2,6 +2,8 @@
 
 This code is a simple chatbot powered by CodeGPT Plus, a natural language processing API. It uses Streamlit to create a simple user interface where users can input a message and receive a response from the chatbot.
 
+<img width="992" alt="Captura de pantalla 2023-10-07 a las 19 23 06" src="https://github.com/JudiniLabs/cookbook/assets/6216945/7e1e069c-688d-46ab-8b8c-aedbd2377da5">
+
 ## Dependencies
 
 This code requires the following dependencies:
