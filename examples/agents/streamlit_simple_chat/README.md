@@ -14,7 +14,10 @@ This code requires the following dependencies:
 ## How to use
 
 1. Clone the repository or download the code.
-2. Install the dependencies by running pip install -r requirements.txt in the command line.
+2. Install the dependencies by running 
+   ```
+   pip install -r requirements.txt 
+   ```
 3. Create an account on CodeGPT Plus and obtain an API key.
 4. Create a new agent on CodeGPT Plus and obtain the agent ID.
 5. Create a .env file in the root directory of the project and add the following lines:
@@ -22,7 +25,10 @@ This code requires the following dependencies:
     CODEGPT_API_KEY=<your_api_key>
     CODEGPT_AGENT_ID=<your_agent_id>
     ```
-6. Run the code by running streamlit run chatbot.py in the command line.
+6. Run the code by running 
+   ```
+   streamlit run app.py 
+   ```
 7. Input a message in the chatbox and receive a response from the chatbot.
 
 ## Notes 
