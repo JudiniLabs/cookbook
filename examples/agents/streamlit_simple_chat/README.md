@@ -31,6 +31,10 @@ This code requires the following dependencies:
    ```
 7. Input a message in the chatbox and receive a response from the chatbot.
 
+## Deploy
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 ## Notes 
 
 - The chat history is stored in the st.session_state variable, which is a dictionary that persists across app reruns.
