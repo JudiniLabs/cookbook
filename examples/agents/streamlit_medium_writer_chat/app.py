@@ -38,7 +38,7 @@ publish_status = st.sidebar.selectbox(
 # functions
 
 async def run_function_agent(agent_id, prompt):
-    agent_instance = Agent(api_key=CODEGPT_API_KEY,agent_id=agent_id )
+    agent_instance = Agent(api_key=api_key,agent_id=agent_id )
     st.write(agent_instance)
     full_response = ""
     async for response in agent_instance.chat_completion(prompt, stream=False):
@@ -94,7 +94,7 @@ def medium_publish():
     # get medium userID
     url_me = 'https://api.medium.com/v1/me'
     headers = {
-        "Authorization": "Bearer "+MEDIUM_TOKEN,
+        "Authorization": "Bearer "+medium_token,
         "Content-Type": "application/json",
         "Accept": "application/json",
         "Accept-Charset": "utf-8"
