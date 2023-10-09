@@ -80,6 +80,7 @@ def medium_publish():
                         print(f'Error : line')
     clean_article = full_response_article.replace("```json", "").replace("```", "")
     
+    st.write(clean_article)
     # JSON
     json_article = json.loads(clean_article)
     # get "title"
