@@ -38,7 +38,7 @@ publish_status = st.sidebar.selectbox(
 # functions
 
 async def run_function_agent(agent_id, prompt):
-    agent_instance = Agent(api_key=api_key,agent_id=agent_id )
+    agent_instance = Agent(api_key=api_key,agent_id=agent_id)
     full_response = ""
     async for response in agent_instance.chat_completion(prompt, stream=False):
         full_response += response
@@ -80,7 +80,6 @@ def medium_publish():
                         print(f'Error : line')
     clean_article = full_response_article.replace("```json", "").replace("```", "")
     
-    st.write(clean_article)
     # JSON
     json_article = json.loads(clean_article)
     # get "title"
