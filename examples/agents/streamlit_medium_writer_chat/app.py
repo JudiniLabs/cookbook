@@ -39,6 +39,7 @@ publish_status = st.sidebar.selectbox(
 
 async def run_function_agent(agent_id, prompt):
     agent_instance = Agent(api_key=CODEGPT_API_KEY,agent_id=agent_id )
+    st.write(agent_instance)
     full_response = ""
     async for response in agent_instance.chat_completion(prompt, stream=False):
         full_response += response
@@ -153,8 +154,7 @@ if prompt := st.chat_input("Let's write an article"):
             message_placeholder = st.empty()
             is_function = False
             response = asyncio.run(run_function_agent(CODEGPT_MEDIUM_AGENT_ID, prompt))
-
-            status.update(label="Answer completed", state="running", expanded=True)
+            st.write(response)
             if(response != ""):
                 status.update(label="Medium Agent", state="running", expanded=True)
                 function_name = response["function"]["name"]
