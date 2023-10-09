@@ -1,0 +1,6 @@
+{
+    "name": "Agent Writer for Medium",
+    "description": "This is a Streamlit app that allows you to engage with an AI agent on the topic on which you wish to create an article",
+    "repository": "https://github.com/JudiniLabs/cookbook/tree/main/examples/agents/streamlit_medium_writer_chat",
+    "keywords": ["python", "streamlit", "codegpt"]
+}

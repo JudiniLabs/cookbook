@@ -34,7 +34,7 @@ This is a Streamlit app that allows you to engage with an AI agent on the topic 
 
 ## Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JudiniLabs/cookbook/tree/main/examples/agents/streamlit_medium_writer_chat)
 
 ## Notes
 

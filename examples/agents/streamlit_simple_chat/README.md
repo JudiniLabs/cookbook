@@ -35,10 +35,8 @@ This code requires the following dependencies:
 
 ## Deploy
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-[![Deploy to Azure](https://binbashbanana.github.io/deploy-buttons/buttons/remade/azure.svg)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.web%2Fwebapp-linux-node%2Fazuredeploy.json)
-[![Deploy to Render](https://binbashbanana.github.io/deploy-buttons/buttons/remade/render.svg)](https://render.com/deploy?repo=https://github.com/BinBashBanana/deploy-buttons)
-[![Deploy on Railway](https://binbashbanana.github.io/deploy-buttons/buttons/remade/railway.svg)](https://railway.app/new/template?template=https://github.com/BinBashBanana/deploy-buttons)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/JudiniLabs/cookbook/tree/main/examples/agents/streamlit_simple_chat)
+
 ## Notes 
 
 - The chat history is stored in the st.session_state variable, which is a dictionary that persists across app reruns.
