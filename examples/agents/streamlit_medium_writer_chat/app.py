@@ -24,7 +24,8 @@ st.divider()
 # codegpt sidebar
 st.sidebar.title("CodeGPT settings")
 api_key = st.sidebar.text_input("CodeGPT Plus API key", value=CODEGPT_API_KEY, type="password")
-codegpt_agent_id = st.sidebar.text_input(f"Agent ID", value=CODEGPT_AGENT_ID)
+if(api_key):
+    codegpt_agent_id = st.sidebar.text_input(f"Agent ID", value=CODEGPT_AGENT_ID)
 
 # medium sidebar
 st.sidebar.title("Medium settings")
