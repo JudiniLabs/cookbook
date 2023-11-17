@@ -37,7 +37,6 @@ publish_status = st.sidebar.selectbox(
 )
 
 # functions
-
 async def run_function_agent(agent_id, prompt):
     agent_instance = Agent(api_key=api_key,agent_id=agent_id)
     full_response = ""
