@@ -5,7 +5,6 @@ from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.agents import Tool
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
-from langchain.chains.conversation.memory import ConversationBufferWindowMemory
 from langchain.callbacks import StreamlitCallbackHandler
 import streamlit as st
 import sys
