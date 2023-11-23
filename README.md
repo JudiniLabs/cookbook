@@ -1,7 +1,27 @@
-# CodeGPT Plus Cookbook
-Welcome to CodeGPT Plus Cookbook! This repository contains a collection of code examples that demonstrate how use CodeGPT API to create agents and integrate them with Langchain or other services in a production environment.
+# CodeGPT Cookbook
 
-Getting Started
-To get started, you will need to have an API key from CodeGPT Plus (https://account.codegpt.co)
+Welcome to the CodeGPT Plus Cookbook! This repository contains a collection of code samples that demonstrate how to use the CodeGPT API along with its different SDKs.
 
-You can sign up for an API key on the website. Once you have your API key, you can clone this repository and start exploring the code examples.
+You can find examples of integrations, practical examples and uses in different languages, frameworks and use cases.
+
+If you want to collaborate with an example, send us a pull request.
+
+## Examples with
+ - [x]  [API Rest](https://developers.codegpt.co). 
+ - [x]  [Python SDK](https://pypi.org/project/judini/) [![PyPI version](https://img.shields.io/pypi/v/judini.svg)](https://pypi.org/project/judini/)
+ - [ ]  JS SDK
+
+  
+
+## Getting Started
+
+**CODEGPT API KEY**  
+
+You must go to https://plus.codegpt.co then go to configuration and go to **Configuration> Access Tokens**
+
+And copy **CODEGPT API KEY**
+
+Once you have your API key, you can clone this repository and start exploring the code examples.
+
+## Full Documentation API
+The API documentation can be found in [developers.codegpt.co](https://developers.codegpt.co).
