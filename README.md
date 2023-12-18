@@ -11,7 +11,9 @@ If you want to collaborate with an example, send us a pull request.
  - [x]  [Python SDK](https://pypi.org/project/judini/) [![PyPI version](https://img.shields.io/pypi/v/judini.svg)](https://pypi.org/project/judini/)
  - [ ]  JS SDK
 
-  
+## Integration
+- [x]  [Langchain](https://github.com/JudiniLabs/cookbook/tree/main/examples/langchain_apps). 
+- [x]  [LLama Index](https://github.com/JudiniLabs/cookbook/tree/main/examples/llama_index). 
 
 ## Getting Started
 
