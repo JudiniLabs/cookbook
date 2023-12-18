@@ -1,15 +1,10 @@
 import streamlit as st
 import time
+import requests
 import json
 import os
-
-#import judini sdk
-from judini.codegpt.chat import Completion
-
-
 from dotenv import load_dotenv
 load_dotenv()
-
 
 # CodeGPT Plus
 api_key_env = os.getenv("CODEGPT_API_KEY")
@@ -18,7 +13,7 @@ agent_id_env = os.getenv("CODEGPT_AGENT_ID")
 # layout
 st.set_page_config(layout="centered")  
 st.title("Streamlit simple chat 🙂 💬 🤖")
-st.write('Powered by <a href="https://www.codegpt.co/">CodeGPT</a>', unsafe_allow_html=True)
+st.write('Powered by <a href="https://plus.codegpt.co/">CodeGPT Plus</a>', unsafe_allow_html=True)
 st.divider()
 
 # sidebar
@@ -45,30 +40,38 @@ if prompt := st.chat_input("En que te puedo ayudar?"):
 
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        # Initialize variables
         message_placeholder = st.empty()
         full_response = ""
-
-        # Define Prompt
-        prompt = {
+        url = 'https://plus.codegpt.co/api/v1/agent/'+agent_id
+        headers = {"Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer "+api_key}
+        data = {
+            "messages": [
+                {
                     "role": "user",
                     "content": prompt
                 }
-        # Initialize Completion instance
-        completion  =  Completion(api_key)
-        # Get completion
-        response = completion.create(agent_id,prompt)
+            ]
+        }
 
-        # Show the answer with chat effect
-        for line in response:
-            if line:
-                try:
-                    full_response += str(line)
-                    time.sleep(0.01)
-                    # Add a blinking cursor to simulate typing
-                    message_placeholder.markdown(full_response + "▌")
-                except json.JSONDecodeError:
-                    print(f'Error : {line}')
-                            
+        response = requests.post(url, headers=headers, json=data, stream=True)
+        raw_data = ''
+        tokens = ''
+        for chunk in response.iter_content(chunk_size=1024):
+            if chunk:
+                raw_data = chunk.decode('utf-8').replace("data: ", '')
+                if raw_data != "":
+                    lines = raw_data.strip().splitlines()
+                    for line in lines:
+                        line = line.strip()
+                        if line and line != "[DONE]":
+                            try:
+                                json_object = json.loads(line) 
+                                result = json_object['data']
+                                full_response += result
+                                time.sleep(0.05)
+                                # Add a blinking cursor to simulate typing
+                                message_placeholder.markdown(full_response + "▌")
+                            except json.JSONDecodeError:
+                                print(f'Error : {line}')
         message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
