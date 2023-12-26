@@ -3,14 +3,17 @@ const { extractValueByKey, extractAgentProperties, updateJsonAgents, readJsonAge
 const fs = require('fs').promises;
 
 // Retrieve environment variables
-const nameChatbot = process.env.CODE_GPT_API_KEY;
+const nameChatbot = process.env.CODEGPT_API_KEY;
 const generalUrl = process.env.GENERAL_URL_API;
+
+console.log(nameChatbot)
+console.log(generalUrl)
 
 // Define headers for API requests
 const headers = {
     "accept": "application/json",
     "content-type": "application/json",
-    "authorization": `Bearer ${process.env.CODE_GPT_API_KEY}`
+    "authorization": `Bearer ${process.env.CODEGPT_API_KEY}`
 };
 
 // Define a function to handle commands
