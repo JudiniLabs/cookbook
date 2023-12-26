@@ -5,8 +5,6 @@ import os
 
 #import judini sdk
 from judini.codegpt.chat import Completion
-
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -37,8 +35,13 @@ for message in st.session_state.messages:
 
 # Accept user input
 if prompt := st.chat_input("En que te puedo ayudar?"):
+
+    # Define messages
+    messages = { "role": "user", "content": prompt }
+
     # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append(messages)
+
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -49,15 +52,10 @@ if prompt := st.chat_input("En que te puedo ayudar?"):
         message_placeholder = st.empty()
         full_response = ""
 
-        # Define Prompt
-        prompt = {
-                    "role": "user",
-                    "content": prompt
-                }
         # Initialize Completion instance
         completion  =  Completion(api_key)
         # Get completion
-        response = completion.create(agent_id,prompt)
+        response = completion.create(agent_id, messages)
 
         # Show the answer with chat effect
         for line in response:
