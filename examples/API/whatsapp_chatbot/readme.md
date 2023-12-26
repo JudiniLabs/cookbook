@@ -13,6 +13,10 @@ npm install
 **Environment Variables:**
 
 Ensure you have the necessary environment variables set, including CODE_GPT_API_KEY and GENERAL_URL_API. These are essential for authenticating and communicating with the API.
+IP_ADDRESS=localhost
+PORT=3000
+CODE_GPT_API_KEY
+GENERAL_URL_API
 
 **Integration with WhatsApp:**
 
