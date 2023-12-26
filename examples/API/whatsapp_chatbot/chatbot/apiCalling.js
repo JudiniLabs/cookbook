@@ -384,8 +384,13 @@ const defaultAgent = async (msg) => {
         const nameValue = extractValueByKey(msg.text, `agentId`);
         const number = msg.sender.split("@")[0];
         if (nameValue !== null) {
-            await updateJsonAgents(number, nameValue, nameChatbot)
-            return `agent ${nameValue} is now your agent`
+            try {
+                await updateJsonAgents(number, nameValue, nameChatbot)
+                return `agent ${nameValue} is now your agent`
+            }
+            catch(error){
+                return error.message
+            }
         }
 
         return "DocumentId was not provided";

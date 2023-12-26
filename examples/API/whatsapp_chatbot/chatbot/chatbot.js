@@ -14,9 +14,10 @@ const {
 const { completion } = require("./ia");
 const { commands } = require("./apiCalling");
   require("dotenv").config();
-  const fs = require('fs').promises;
   const { writeFile } = require('fs').promises;
 const { downloadMediaMessage } = require ('@whiskeysockets/baileys')
+const path = require('path');
+const fs = require("fs");
 
   class whatsAppBot {
     constructor(sessionName, creds) {
@@ -222,8 +223,7 @@ const { downloadMediaMessage } = require ('@whiskeysockets/baileys')
           
           if (msg.mtype === 'documentWithCaptionMessage') {
             try {
-                
-                const fileName = msg.msg.message.documentMessage.fileName || ""; // Usa un nombre predeterminado si no hay un nombre proporcionado
+                const fileName = msg.msg.message.documentMessage.fileName || "";
         
                 // Descarga el documento
                 const buffer = await downloadMediaMessage(
@@ -235,21 +235,30 @@ const { downloadMediaMessage } = require ('@whiskeysockets/baileys')
                     }
                 );
         
+                // Ruta donde se guardará el documento
+                const filePath = path.join(__dirname, '..', 'Data', 'Documents', fileName);
+        
+                // Verifica si la carpeta existe, y créala si no
+                const folderPath = path.dirname(filePath);
+                if (!fs.existsSync(folderPath)) {
+                    fs.mkdirSync(folderPath, { recursive: true });
+                }
+        
                 // Guarda el documento en un archivo local con el nombre extraído
-                await writeFile(`./Data/Documents/${fileName}`, buffer);
+                await writeFile(filePath, buffer);
         
                 const command = msg.msg.message.documentMessage.caption;
                 const comandoMatch = command.match(/\/(\w+)/);
                 if (comandoMatch) {
-                 let response = await commands(fileName,comandoMatch)
-                  msg.reply(response)
+                    let response = await commands(fileName, comandoMatch)
+                    msg.reply(response);
                 }
-                return 
-                
+                return;
             } catch (error) {
                 console.error('Error downloading or saving document:', error.message);
             }
         }
+        
         
     
   

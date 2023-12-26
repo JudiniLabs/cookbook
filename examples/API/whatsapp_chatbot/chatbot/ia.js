@@ -20,11 +20,13 @@ const completion = async (message) => {
     try {
         // Retrieve chat history and user number
         const chatHistory = await readChatMemoryFromFile(nameChatbot);
+        console.log("chatHistory", chatHistory)
         const number = message.sender.split("@")[0];
 
         // Retrieve agent information based on user number
         let agents = await readJsonAgents(nameChatbot);
         let agent = agents[number];
+
 
         // Check if the user has an assigned agent
         if (!agent) {
