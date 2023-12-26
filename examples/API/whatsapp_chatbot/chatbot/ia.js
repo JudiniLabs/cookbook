@@ -1,7 +1,6 @@
 const { noAgent } = require("./apiCalling");
 const { readChatMemoryFromFile, updateChatMemory, readJsonAgents } = require("./utils");
 const nameChatbot = process.env.CODEGPT_API_KEY;
-
 const generalUrl = process.env.GENERAL_URL_API;
 
 const headers = {
@@ -24,10 +23,13 @@ const completion = async (message) => {
         const number = message.sender.split("@")[0];
 
         // Retrieve agent information based on user number
-        let agents = await readJsonAgents(nameChatbot);
-        let agent = agents[number];
-
-
+        let agent;
+        if (process.env.GENERAL_AGENT !== "none") agent = process.env.GENERAL_AGENT
+        else {
+            let agents = await readJsonAgents(nameChatbot);
+            agent = agents[number];
+        }
+        
         // Check if the user has an assigned agent
         if (!agent) {
             return await noAgent();

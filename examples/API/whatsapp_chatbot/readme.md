@@ -17,6 +17,7 @@ IP_ADDRESS=localhost
 PORT=3000
 CODEGPT_API_KEY
 GENERAL_URL_API
+GENERAL_AGENT : IMPORTANT: If you want to set a default agent for all numbers that write to the chatbot, write your agentId in this environment variable. If not, write 'none,' and each user who writes will have to choose their chatbot by interacting with the commands
 
 **Integration with WhatsApp:**
 
