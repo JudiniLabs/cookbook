@@ -408,6 +408,17 @@ const myAgent = async (msg) => {
     }
 };
 
+const noAgent = async (nameChatbot) => {
+    try {
+      let agents = await listAgents()
+      return `You don't have any agent associated.
+      To select one of your agents, write /defaultAgent agentId: (chosen agent id).
+      Your available agents are these: ${agents}`
+    } catch (err) {
+      return {};
+    }
+  };
+
 // Define a set of commands with corresponding methods
 const methods = {
     "/createAgent": createAgent,
@@ -428,5 +439,6 @@ const methods = {
 // Export the functions for external use
 module.exports = {
     commands,
-    createAgent
+    createAgent,
+    noAgent
 };
