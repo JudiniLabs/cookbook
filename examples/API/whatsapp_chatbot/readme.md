@@ -12,15 +12,15 @@ npm install
 
 **Environment Variables:**
 
-Ensure you have the necessary environment variables set, including CODE_GPT_API_KEY and GENERAL_URL_API. These are essential for authenticating and communicating with the API.
+Ensure you have the necessary environment variables set, including CODEGPT_API_KEY and GENERAL_URL_API. These are essential for authenticating and communicating with the API.
 IP_ADDRESS=localhost
 PORT=3000
-CODE_GPT_API_KEY
+CODEGPT_API_KEY
 GENERAL_URL_API
 
 **Integration with WhatsApp:**
 
-We use the Baileys library to create a chatbot using WhatsApp. Baileys generates a chatbot with the API key you provide in the .env file as the identifier. If you want to create a different chatbot using a different account, change the CODE_GPT_API_KEY in the .env file to create a new chatbot associated with your new codeGPT account. You can create your codeGPT account [here](https://www.codegpt.co).
+We use the Baileys library to create a chatbot using WhatsApp. Baileys generates a chatbot with the API key you provide in the .env file as the identifier. If you want to create a different chatbot using a different account, change the CODEGPT_API_KEY in the .env file to create a new chatbot associated with your new codeGPT account. You can create your codeGPT account [here](https://www.codegpt.co).
 
 Once your chatbot is associated with your codeGPT account, start the server using `npm start` to initiate the service. Your chatbot will be launched, generating a QR code that you can scan using the option in the WhatsApp application on your mobile phone (similar to scanning for WhatsApp Web).
 

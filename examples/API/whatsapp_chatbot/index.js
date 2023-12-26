@@ -3,7 +3,7 @@ require("dotenv").config();
 // Set up constants for server configuration
 const PORT = process.env.PORT;
 const IP_ADDRESS = process.env.IP_ADDRESS;
-const nameChatbot = process.env.CODE_GPT_API_KEY;
+const nameChatbot = process.env.CODEGPT_API_KEY;
 
 // Import required modules and components
 const http = require("http");

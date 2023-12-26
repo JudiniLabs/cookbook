@@ -216,7 +216,7 @@ const loadDocuments = async (filename) => {
         formData.append('file', fileBlob, filename);
 
         const headers = {
-            'Authorization': `Bearer ${process.env.CODE_GPT_API_KEY}`, // Replace with your API key
+            'Authorization': `Bearer ${process.env.CODEGPT_API_KEY}`, // Replace with your API key
         };
 
         const url = `${generalUrl}/document/load`;
@@ -282,7 +282,7 @@ const loadTrainDocuments = async (filename) => {
         formData.append('file', fileBlob, filename);
 
         const headers = {
-            'Authorization': `Bearer ${process.env.CODE_GPT_API_KEY}`, // Replace with your API key
+            'Authorization': `Bearer ${process.env.CODEGPT_API_KEY}`, // Replace with your API key
         };
 
         const url = `${generalUrl}/document/load-and-training`;

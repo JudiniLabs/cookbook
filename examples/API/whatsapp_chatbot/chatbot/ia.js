@@ -1,13 +1,13 @@
 const { noAgent } = require("./apiCalling");
 const { readChatMemoryFromFile, updateChatMemory, readJsonAgents } = require("./utils");
-const nameChatbot = process.env.CODE_GPT_API_KEY;
+const nameChatbot = process.env.CODEGPT_API_KEY;
 
 const generalUrl = process.env.GENERAL_URL_API;
 
 const headers = {
     "accept": "application/json",
     "content-type": "application/json",
-    "authorization": `Bearer ${process.env.CODE_GPT_API_KEY}`
+    "authorization": `Bearer ${process.env.CODEGPT_API_KEY}`
 };
 
 /**

@@ -161,7 +161,7 @@ const readJsonAgents = async (nameChatbot) => {
   try {
     console.log("entró", nameChatbot)
     const data = fs.readFileSync(
-      `Data/Agents/${nameChatbot}.json`,
+      `../Data/Agents/${nameChatbot}.json`,
       "utf-8"
     );
     console.log("data", JSON.parse(data));
