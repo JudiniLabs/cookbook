@@ -1,0 +1,43 @@
+{
+  "name": "baileys-whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Whatsapp Bot codeGPT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com"
+  },
+  "author": "Brandon Reyes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com"
+  },
+  "homepage": "https://github.com",
+  "dependencies": {
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@hapi/boom": "^10.0.1",
+    "@middy/core": "^4.6.4",
+    "@whiskeysockets/baileys": "^6.3.1",
+    "api": "^6.1.1",
+    "awesome-phonenumber": "^5.10.0",
+    "aws-sdk": "^2.1423.0",
+    "axios": "^1.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.2",
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.2.0",
+    "https": "^1.0.0",
+    "mime-types": "^2.1.35",
+    "openai": "^3.3.0",
+    "path": "^0.12.7",
+    "qrcode-terminal": "^0.12.0",
+    "rimraf": "^3.0.2"
+  }
+}
