@@ -1,0 +1,3 @@
+name = "Challenge CodeGPT"
+description = "Challenge CodeGPT"
+tag = [challenge]

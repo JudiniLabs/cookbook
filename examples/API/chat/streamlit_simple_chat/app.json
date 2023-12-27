@@ -1,6 +1,0 @@
-{
-    "name": "Streamlit simple chat",
-    "description": "Simple chat with CodeGPT Plus and Streamlit",
-    "repository": "https://github.com/JudiniLabs/cookbook/tree/main/examples/agents/streamlit_simple_chat",
-    "keywords": ["python", "streamlit", "codegpt"]
-}
