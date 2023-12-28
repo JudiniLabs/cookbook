@@ -391,7 +391,7 @@ const defaultAgent = async (msg) => {
                 await updateJsonAgents(number, nameValue, nameChatbot)
                 return `agent ${nameValue} is now your agent`
             }
-            catch(error){
+            catch (error) {
                 return error.message
             }
         }
@@ -418,14 +418,14 @@ const myAgent = async (msg) => {
 
 const noAgent = async (nameChatbot) => {
     try {
-      let agents = await listAgents()
-      return `You don't have any agent associated.
+        let agents = await listAgents()
+        return `You don't have any agent associated.
       To select one of your agents, write /defaultAgent agentId: (chosen agent id).
       Your available agents are these: ${agents}`
     } catch (err) {
-      return {};
+        return {};
     }
-  };
+};
 
 // Define a set of commands with corresponding methods
 const methods = {
@@ -437,7 +437,7 @@ const methods = {
     "/usersMe": usersMe,
     "/loadDocuments": loadDocuments,
     "/trainDocuments": trainDocuments,
-    "/learnThis": loadTrainDocuments,
+    "/aprende": loadTrainDocuments,
     "/listDocuments": listDocuments,
     "/getDocument": getDocument,
     "/deleteDocument": deleteDocument,
