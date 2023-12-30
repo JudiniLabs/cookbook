@@ -1,0 +1,3 @@
+name = "Telegram Chat Bot"
+description = "Integration telegram with CodeGPT"
+tag = [examples]
