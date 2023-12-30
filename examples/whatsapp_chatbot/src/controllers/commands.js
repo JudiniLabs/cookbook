@@ -198,7 +198,6 @@ const listDocuments = async () => {
 // Function to get information about a document
 const getDocument = async (msg) => {
     try {
-        
         const documentId = extractValueByKey(msg.text, `documentId`);
 
         let response = await codeGPTApi.getDocument(documentId)

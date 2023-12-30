@@ -1,3 +1,0 @@
-name = "Whatsapp Chat Bot"
-description = "Integration Whatsapp with CodeGPT"
-tag = [examples]
