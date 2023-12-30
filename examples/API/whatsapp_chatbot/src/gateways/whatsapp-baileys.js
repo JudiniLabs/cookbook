@@ -11,13 +11,14 @@ const {
   const { Boom } = require("@hapi/boom");
   const { join } = require("path");
   const rimraf = require("rimraf");
-const { completion } = require("./ia");
-const { commands } = require("./apiCalling");
   require("dotenv").config();
   const { writeFile } = require('fs').promises;
 const { downloadMediaMessage } = require ('@whiskeysockets/baileys')
 const path = require('path');
 const fs = require("fs");
+const { commands } = require("../controllers/commands");
+const { sendDocument, sendMessage } = require("../controllers/message-controller");
+const { readJsonAgentsByNumber } = require("../repositories/json-repository");
 
   class whatsAppBot {
     constructor(sessionName, creds) {
@@ -28,18 +29,10 @@ const fs = require("fs");
         logger: pino().child({ level: "silent", stream: "store" }),
       });
       this.messageQueues = {};
-      this.connectionState = "";
-      this.nameStore = ``;
-      this.configuration = {};
-      this.data = [];
-      this.contacts = [];
-      this.pausedContacts = [];
-      this.qr = undefined;
-      this.state = undefined;
-      this.status = undefined;
-            this.start().then();
+      this.agent = process.env.GENERAL_AGENT ?? null // ver si esto anda
+      this.start().then();
     }
-  
+    
     smsg(conn, m) {
       if (!m) return m;
       let M = proto.WebMessageInfo;
@@ -184,7 +177,7 @@ const fs = require("fs");
   
       return m;
     }
-  
+
     async start() {
       const NAME_DIR_SESSION = `${this.sessionName}_session`;
   
@@ -201,9 +194,10 @@ const fs = require("fs");
       this.client = client;
   
       this.store.bind(client.ev);
+
   
       client.ev.on("messages.upsert", async (chatUpdate) => {
-        // console.log(JSON.stringify(chatUpdate, undefined, 2))
+       
         try {
           // Ultimo Mensaje
           let lastMessage = chatUpdate.messages[0];
@@ -219,49 +213,20 @@ const fs = require("fs");
          
           //Ordena la data de un mensaje
           let msg = this.smsg(client, lastMessage);
-          
+         
           
           if (msg.mtype === 'documentWithCaptionMessage') {
             try {
-                const fileName = msg.msg.message.documentMessage.fileName || "";
-        
-                // Descarga el documento
-                const buffer = await downloadMediaMessage(
-                    lastMessage,
-                    'buffer',
-                    {},
-                    {
-                        reuploadRequest: client.updateMediaMessage,
-                    }
-                );
-        
-                // Ruta donde se guardará el documento
-                const filePath = path.join(__dirname, '..', 'Data', 'Documents', fileName);
-        
-                // Verifica si la carpeta existe, y créala si no
-                const folderPath = path.dirname(filePath);
-                if (!fs.existsSync(folderPath)) {
-                    fs.mkdirSync(folderPath, { recursive: true });
-                }
-        
-                // Guarda el documento en un archivo local con el nombre extraído
-                await writeFile(filePath, buffer);
-        
-                const command = msg.msg.message.documentMessage.caption;
-                const comandoMatch = command.match(/\/(\w+)/);
-                if (comandoMatch) {
-                    let response = await commands(fileName, comandoMatch)
-                    msg.reply(response);
-                }
-                return;
-            } catch (error) {
-                console.error('Error downloading or saving document:', error.message);
+              let agent = await readJsonAgentsByNumber(this.sessionName,msg.chat.replace("@s.whatsapp.net", ""))
+          
+              let response = await sendDocument(msg, client,lastMessage,agent??this.agent)
+              msg.reply(response)
+            }
+            catch(error){
+              msg.reply(error.message)
             }
         }
         
-        
-    
-  
           let cantMensajes;
           let mensaje;
          
@@ -313,16 +278,15 @@ const fs = require("fs");
   
             if (mensajesAnidados) {
               msg.text = mensajesAnidados;
-              const comandoMatch = msg.text.match(/\/(\w+)/);
-              let response = false
-              if (comandoMatch) response = await commands(msg,comandoMatch)
-              //Enviamos el mensaje anidado a la IA
-              if (!response) response = await completion(msg)
-             try{
+          
+            try {
+              let agent = await readJsonAgentsByNumber(this.sessionName,msg.chat.replace("@s.whatsapp.net", ""))
+              let response = await sendMessage(msg,agent??this.agent)
+           
               msg.reply(response)
              }
              catch(error){
-              msg.reply(error)
+              msg.reply(error.message)
              }
             }
           }, 2000);
@@ -412,6 +376,8 @@ const fs = require("fs");
       client.sendText = (jid, text, quoted = "", options) =>
         client.sendMessage(jid, { text: text, ...options });
     }
+    
+
   
   }
   

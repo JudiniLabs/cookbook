@@ -1,13 +1,12 @@
-const { noAgent } = require("./apiCalling");
-const { readChatMemoryFromFile, updateChatMemory, readJsonAgents } = require("./utils");
+
+const CodeGPTApi = require("../services/code-gpt-api");
+const { readChatMemoryFromFile, updateChatMemory, readJsonAgents } = require("../repositories/json-repository");
+const { noAgent } = require("./commands");
 const nameChatbot = process.env.CODEGPT_API_KEY;
 const generalUrl = process.env.GENERAL_URL_API;
 
-const headers = {
-    "accept": "application/json",
-    "content-type": "application/json",
-    "authorization": `Bearer ${process.env.CODEGPT_API_KEY}`
-};
+
+const codeGPTApi = new CodeGPTApi(generalUrl, nameChatbot);
 
 /**
  * Handles message completion by interacting with the GPT API.
@@ -15,24 +14,23 @@ const headers = {
  * @param {object} message - The user's message object containing sender information and text content.
  * @returns {Promise<object|string>} - Returns the assistant's response or an error object.
  */
-const completion = async (message) => {
+const completion = async (message,agentId) => {
     try {
+       
         // Retrieve chat history and user number
         const chatHistory = await readChatMemoryFromFile(nameChatbot);
-        console.log("chatHistory", chatHistory)
+    
         const number = message.sender.split("@")[0];
 
-        // Retrieve agent information based on user number
-        let agent;
-        if (process.env.GENERAL_AGENT !== "none") agent = process.env.GENERAL_AGENT
-        else {
-            let agents = await readJsonAgents(nameChatbot);
-            agent = agents[number];
-        }
         
-        // Check if the user has an assigned agent
-        if (!agent) {
-            return await noAgent();
+        if (!agentId) {
+            let agents = await readJsonAgents(nameChatbot);
+            agentId = agents[number];
+            
+            // Check again after attempting to retrieve from agents
+            if (!agentId) {
+                return await noAgent();
+            }
         }
 
         // Update chat memory with the user's message
@@ -52,32 +50,17 @@ const completion = async (message) => {
         });
 
         // Build the payload for the GPT API request
-        const url = `${generalUrl}${"/completion"}`;
-        const payload = {
-            agent: agent,
-            messages: messages,
-            stream: false,
-        };
-
-        // Log the payload for debugging purposes
-        console.log("payload", JSON.stringify(payload));
-
-        // Make a POST request to the GPT API
-        const response = await fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(payload),
-        });
+        const response = await codeGPTApi.completion(agentId,messages)
 
         // Log the API response for debugging purposes
         console.log("response", response);
 
         // Process the API response and update chat memory with the assistant's message
-        const data = await response.json();
+        const data = await response
         const text = data.replace(/^data: /, "");
         updateChatMemory(number, { role: "assistant", content: text }, nameChatbot);
 
-        // Return the assistant's response
+      
         return text;
     } catch (error) {
         // Handle and log any errors that occur during the process
@@ -86,15 +69,7 @@ const completion = async (message) => {
     }
 };
 
-/**
- * Placeholder function for future functionality related to agent selection.
- */
-const selectAgent = async () => {
-    // Placeholder for future functionality related to agent selection
-};
 
 module.exports = {
-    completion,
-    generalUrl,
-    headers
+    completion
 };

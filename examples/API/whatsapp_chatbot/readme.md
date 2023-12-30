@@ -49,8 +49,9 @@ The second functionality is to interact with your codeGPT account using commands
 - "/deleteDocument"
 - "/defaultAgent"
 - "/myAgent"
+- "/learn"
 
-The chatbot responds to commands provided in the form of messages. Each command starts with a forward slash (/) followed by the specific command name.
+  The chatbot responds to commands provided in the form of messages. Each command starts with a forward slash (/) followed by the specific command name.
 
 If you do not provide a command, the message will be interpreted as a conversation flow question for your chatbot using codeGPT. It will respond to your message considering the history (maximum 30 messages).
 
@@ -74,15 +75,14 @@ Here are some of the available commands:
 
 **Get Agent Information:**
 
-- `/getAgent`: Retrieve information about a specific agent by providing its ID.
+- `/getAgent`: Retrieve information about your actual agent.
 
-  Example: `/getAgent agentId:123`
+  Example: `/getAgent`
 
   **Method Used:**
 
   - **Method Name:** `getAgent`
   - **Functionality:**
-    - Extracts the agent ID from the message using `extractValueByKey`.
     - Sends a request to retrieve information about the specified agent.
     - Returns the result of the agent information retrieval.
 
@@ -101,9 +101,9 @@ Here are some of the available commands:
 
 **Update Agent:**
 
-- `/updateAgent`: Update properties of a specific agent.
+- `/updateAgent`: Update properties of your actual agent.
 
-  Example: `/updateAgent agentId:123, property1:value1,property2:value2`
+  Example: property1:value1,property2:value2`
 
   _Important: Separate by commas the properties to change and only the values you want to change._
 
@@ -187,6 +187,22 @@ Here are some of the available commands:
     - Creates a Blob and FormData objects.
     - Sends a request to load and train the document.
     - Returns the result of the document loading and training process.
+
+**Learn:**
+
+- `/learn`: Load and train and activate a document for processing inmediatly.
+
+  Example: `/learn documentName.pdf`
+
+  **Method Used:**
+
+  - **Method Name:** `loadTrainActivateDocuments`
+  - **Functionality:**
+    - Allows loading and training the document at the same time.
+    - Reads the content of the specified document file.
+    - Sends a request to load and train the document.
+    - Takes the loaded and trained document and associates it with the current agent.
+    - Returns the result of the document process.
 
 **List Documents:**
 

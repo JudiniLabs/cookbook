@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+
 // Set up constants for server configuration
 const PORT = process.env.PORT;
 const IP_ADDRESS = process.env.IP_ADDRESS;
@@ -8,10 +9,10 @@ const nameChatbot = process.env.CODEGPT_API_KEY;
 // Import required modules and components
 const http = require("http");
 const { app } = require("./app");
-const { instanciasBot } = require("./chatbot/instances.js");
 const fs = require("fs").promises;
 const { join } = require("path");
-const whatsAppBot = require("./chatbot/chatbot.js");
+const { instanciasBot } = require("./src/utils.js");
+const whatsAppBot = require("./src/Gateways/whatsapp-baileys.js");
 
 // Function to retrieve credentials based on the provided session name
 const getCreds = async (sessionName) => {
