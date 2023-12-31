@@ -1,0 +1,3 @@
+name = "Langchain"
+description ="Examples of CodeGPT with Langchain"
+tag = [integrations]

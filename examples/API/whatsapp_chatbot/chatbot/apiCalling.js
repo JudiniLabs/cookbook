@@ -437,7 +437,7 @@ const methods = {
     "/usersMe": usersMe,
     "/loadDocuments": loadDocuments,
     "/trainDocuments": trainDocuments,
-    "/aprende": loadTrainDocuments,
+    "/learn": loadTrainDocuments,
     "/listDocuments": listDocuments,
     "/getDocument": getDocument,
     "/deleteDocument": deleteDocument,
