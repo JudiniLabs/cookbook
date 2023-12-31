@@ -2,7 +2,6 @@ import streamlit as st
 import time
 import os
 from judini.codegpt.chat import Completion
-from judini.codegpt.document import Document
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -10,7 +9,7 @@ api_key= os.getenv("CODEGPT_API_KEY")
 agent_id= os.getenv("CODEGPT_AGENT_ID")
 st.set_page_config(layout="centered")
 
-st.title("Simple Streamlit Chat CodeGPT Agent 🤖")
+st.title("Simple Streamlit Chat: CodeGPT Agent 🤖")
 st.markdown('---')
 # Initialize chat history
 if "messages" not in st.session_state:
