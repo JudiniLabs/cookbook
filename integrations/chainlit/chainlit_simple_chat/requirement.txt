@@ -1,0 +1,4 @@
+chainlit
+judini
+openai
+python-dotenv

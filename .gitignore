@@ -2,3 +2,5 @@
 .venv
 .pyc
 .vscode*
+.chainlit
+__pycache__
