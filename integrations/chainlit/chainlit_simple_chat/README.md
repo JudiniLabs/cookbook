@@ -5,16 +5,13 @@ This code is a Python script that implements a chatbot using the Chainlit librar
 ## Prerequisites
 Before running this code, make sure you have the following:
 
-## Python installed on your system
-API key and agent ID for CodeGPT. These can be obtained from the CodeGPT platform. Save them in a .env file in the same directory as the script with the following format:
-
+- Python installed on your system
+- API key and agent ID for CodeGPT. These can be obtained from the CodeGPT platform. Save them in a .env file in the same directory as the script with the following format:
 ```
 CODEGPT_API_KEY=your_api_key
 CODEGPT_AGENT_ID=your_agent_id
 ```
-
-Install the required dependencies by running:
-
+- Install the required dependencies by running:
 ```pip install -r requirement.txt```
 
 ## Usage
