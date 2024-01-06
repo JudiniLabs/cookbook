@@ -1,2 +1,2 @@
 name = "Integrations"
-description ="Integrations different tech with CodeGPT"
+description ="Integrations with the CodeGPT SDK"

@@ -1,0 +1,3 @@
+name = "Chainlit"
+description ="CodeGPT Examples with Langchain"
+tag = [integrations]
