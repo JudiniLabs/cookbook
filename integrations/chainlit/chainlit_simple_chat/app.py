@@ -12,9 +12,8 @@ agent_id= os.getenv("CODEGPT_AGENT_ID")
 def start_chat():
     cl.user_session.set(
         "message_history",
-        [{"role": "system", "content": "You are a helpful assistant."}],
+        []
     )
-
 
 @cl.on_message
 async def main(message: cl.Message):
