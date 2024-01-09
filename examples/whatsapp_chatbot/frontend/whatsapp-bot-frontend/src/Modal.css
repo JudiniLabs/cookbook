@@ -1,0 +1,55 @@
+/* Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #1e2b37;
+  padding: 20px;
+  max-width: 80vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: auto;
+  color: #fff; /* Text color is white */
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+}
+
+.modal-header h2 {
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.modal-footer {
+  border-top: 1px solid #fff;
+  padding-top: 10px;
+}
+
+.modal-footer p {
+  margin-top: 20px;
+  color: #fff;
+}
+
+.qr-code {
+  padding: 15px;
+  background: #fff; /* QR Code background is white */
+  border: 1px solid #000; /* QR Code border is black */
+  margin: 20px 0;
+}

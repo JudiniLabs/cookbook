@@ -12,24 +12,22 @@ const {
   const { join } = require("path");
   const rimraf = require("rimraf");
   require("dotenv").config();
-  const { writeFile } = require('fs').promises;
-const { downloadMediaMessage } = require ('@whiskeysockets/baileys')
-const path = require('path');
-const fs = require("fs");
-const { commands } = require("../controllers/commands");
 const { sendDocument, sendMessage } = require("../controllers/message-controller");
-const { readJsonAgentsByNumber } = require("../repositories/json-repository");
+const { readJsonAgentsByNumber, readApiKeyFromFile, readAgentFromFile } = require("../repositories/json-repository");
+const { createQr, quitarQr } = require("../sockets/socketControllers/qrCode");
 
   class whatsAppBot {
     constructor(sessionName, creds) {
-      this.sessionName = sessionName || "whatsAppChatbot";
+      this.sessionName ="whatsAppChatbot";
       this.donet = "";
       this.botNumber = creds;
       this.store = makeInMemoryStore({
         logger: pino().child({ level: "silent", stream: "store" }),
       });
       this.messageQueues = {};
-      this.agent = process.env.GENERAL_AGENT ?? null // ver si esto anda
+      this.agent = ""
+      this.qr = ""
+      this.apiKey = ""
       this.start().then();
     }
     
@@ -177,8 +175,9 @@ const { readJsonAgentsByNumber } = require("../repositories/json-repository");
   
       return m;
     }
-
     async start() {
+      this.apiKey = await readApiKeyFromFile()
+      this.agent = await readAgentFromFile()
       const NAME_DIR_SESSION = `${this.sessionName}_session`;
   
       const { state, saveCreds } = await useMultiFileAuthState(
@@ -187,7 +186,7 @@ const { readJsonAgentsByNumber } = require("../repositories/json-repository");
   
       const client = makeWASocket({
         logger: pino({ level: "silent" }),
-        printQRInTerminal: true,
+        printQRInTerminal: false,
         browser: ["Powered by CodeGPT with <3"],
         auth: state,
       });
@@ -280,6 +279,7 @@ const { readJsonAgentsByNumber } = require("../repositories/json-repository");
               msg.text = mensajesAnidados;
           
             try {
+              console.log("key", this.apiKey)
               let agent = await readJsonAgentsByNumber(this.sessionName,msg.chat.replace("@s.whatsapp.net", ""))
               let response = await sendMessage(msg,agent??this.agent)
            
@@ -366,6 +366,20 @@ const { readJsonAgentsByNumber } = require("../repositories/json-repository");
           }
         }
 
+        if (connection === "open") {
+          this.qr = false;
+          quitarQr(false, this.sessionName);
+          console.log("creds",client.decodeJid(client.user.id))
+          this.botNumber = client.decodeJid(client.user.id)
+        }
+  
+        /** QR Code */
+        if (qr) {
+          this.qr = qr;
+          createQr(qr, this.sessionName);
+          this.botNumber = undefined
+        }
+  
       });
   
   
