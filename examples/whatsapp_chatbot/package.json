@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "concurrently \"node index.js\" \"cd frontend/whatsapp-bot-frontend && npm start\""
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "awesome-phonenumber": "^5.10.0",
     "aws-sdk": "^2.1423.0",
     "axios": "^1.6.3",
+    "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -39,6 +40,8 @@
     "openai": "^3.3.0",
     "path": "^0.12.7",
     "qrcode-terminal": "^0.12.0",
-    "rimraf": "^3.0.2"
+    "rimraf": "^3.0.2",
+    "socket.io": "^4.7.3",
+    "socket.io-client": "^4.7.3"
   }
 }

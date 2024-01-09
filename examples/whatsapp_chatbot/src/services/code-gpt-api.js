@@ -17,6 +17,7 @@ class CodeGPTApi {
 
     async completion(agentId, messages) {
         try {
+            console.log("messages on completion", messages)
            
             const url = `${this.generalUrl}/completion`;
             const payload = {
@@ -25,15 +26,14 @@ class CodeGPTApi {
                 stream: false,
             };
 
-            const response = await fetch(url, {
-                method: "POST",
-                headers: this.headers,
-                body: JSON.stringify(payload),
-            });
-
-          
-
-            const jsonResponse = await response.json();
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: this.headers,
+                    body: JSON.stringify(payload),
+                });
+                console.log("response", response)
+                const jsonResponse = await response.json();
+            console.log("Json converted", jsonResponse)
             return jsonResponse;
         } catch (error) {
             throw new Error(`api codeGPT completion error: ${error.message}`);
@@ -183,14 +183,23 @@ class CodeGPTApi {
         try {
             const filePath = `./Data/Documents/${filename}`;
             const fileContent = await fs.readFile(filePath);
-    
+            
             // Create a FormData object
             const formData = new FormData();
             formData.append('file', fileContent, { filename });
+
+            // const formData = {
+            //     "file" : fileContent, 
+            //     "filename" : filename
+            // }
+            
+            console.log("formadata",formData)
+            console.log("buff", fileContent)
+           
     
             const headers = {
                 'Authorization': `Bearer ${this.apiKey}`,
-                ...formData.getHeaders(), // Incluye los encabezados de FormData
+                // ...formData.getHeaders(), // Incluye los encabezados de FormData
             };
     
             const url = `${this.generalUrl}/document/load-and-training`;

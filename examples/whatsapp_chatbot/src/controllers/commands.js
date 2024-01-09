@@ -1,11 +1,19 @@
 const { readJsonAgents, updateJsonAgents} = require("../repositories/json-repository");
 const CodeGPTApi = require("../services/code-gpt-api");
 const { extractAgentProperties, extractValueByKey } = require("../utils");
-const apiKey = process.env.CODEGPT_API_KEY;
+const { instanciasBot } = require('../utils');
+const nameChatbot = process.env.NAME_CHATBOT;
 const generalUrl = process.env.GENERAL_URL_API;
 
+let codeGPTApi;
 
-const codeGPTApi = new CodeGPTApi(generalUrl, apiKey);
+function getCodeGPTApi() {
+  if (!codeGPTApi) {
+    const apiKey = instanciasBot[nameChatbot].apiKey;
+    codeGPTApi = new CodeGPTApi(generalUrl, apiKey);
+  }
+  return codeGPTApi;
+}
 
 const commands = async (msg, command, agentId) => {
     try {
@@ -26,7 +34,7 @@ const createAgent = async (msg) => {
         // Check if a value was found for 'nameAgent'
         if (nameAgent !== null) {
 
-            let response = await codeGPTApi.createAgent(nameAgent)
+            let response = await getCodeGPTApi().createAgent(nameAgent)
 
             return `Agent created: ${JSON.stringify(response, null, 2)}`;
 
@@ -43,7 +51,7 @@ const getAgent = async (msg,agentId) => {
     try {
    
         if (agentId !== null) {
-            let response = await codeGPTApi.getAgent(agentId)
+            let response = await getCodeGPTApi().getAgent(agentId)
 
             return `Agent: ${JSON.stringify(response, null, 2)}`;
 
@@ -59,7 +67,7 @@ const getAgent = async (msg,agentId) => {
 const listAgents = async () => {
     try {
        
-        let response = await codeGPTApi.listAgents()
+        let response = await getCodeGPTApi().listAgents()
 
         return `Your Agents: ${JSON.stringify(response, null, 2)}`;
     } catch (error) {
@@ -73,7 +81,7 @@ const updateAgent = async (msg,agentId) => {
         console.log("payload", payload, agentId)
         if (payload) {
              
-            let agent = await codeGPTApi.getAgent(agentId)
+            let agent = await getCodeGPTApi().getAgent(agentId)
 
             if (agent.documentId && agent.documentId.length > 0 && payload.documentId) {
                 // Update payload.documentId with the existing agent.documentId
@@ -83,7 +91,7 @@ const updateAgent = async (msg,agentId) => {
                 payload.documentId = [payload.documentId];
             }
 
-            let response = await codeGPTApi.updateAgent(agentId,payload)
+            let response = await getCodeGPTApi().updateAgent(agentId,payload)
             
             return `Agent: ${JSON.stringify(response, null, 2)}`;
         } else {
@@ -100,7 +108,7 @@ const deleteAgent = async (msg) => {
         const agentId = extractValueByKey(msg.text, `agentId`);
 
         if (agentId !== null) {
-            let response = await codeGPTApi.deleteAgent(agentId)
+            let response = await getCodeGPTApi().deleteAgent(agentId)
 
             return `Agent deleted: ${JSON.stringify(response, null, 2)}`;
         } else {
@@ -114,7 +122,7 @@ const deleteAgent = async (msg) => {
 
 const usersMe = async () => {
     try {
-        let response = await codeGPTApi.usersMe()
+        let response = await getCodeGPTApi().usersMe()
 
         return `User info: ${JSON.stringify(response, null, 2)}`;
 
@@ -126,7 +134,7 @@ const usersMe = async () => {
 // Function to load a document
 const loadDocuments = async (filename) => {
     try {
-       let response = await codeGPTApi.loadDocuments(filename)
+       let response = await getCodeGPTApi().loadDocuments(filename)
 
         return `Document load: ${JSON.stringify(response, null, 2)}`;
     } catch (error) {
@@ -142,7 +150,7 @@ const trainDocuments = async (msg) => {
         console.log("documentId", documentId)
 
         if (documentId !== null) {
-            let response = await codeGPTApi.trainDocuments(documentId)
+            let response = await getCodeGPTApi().trainDocuments(documentId)
             return `Document trained: ${JSON.stringify(response, null, 2)}`;
         }
         return "DocumentId was not provided";
@@ -153,7 +161,7 @@ const trainDocuments = async (msg) => {
 
 const loadTrainDocuments = async (filename) => {
     try {
-        let response = await codeGPTApi.loadTrainDocuments(filename)
+        let response = await getCodeGPTApi().loadTrainDocuments(filename)
 
         return `Document load and trained: ${JSON.stringify(response, null, 2)}`;
     } catch (error) {
@@ -163,8 +171,8 @@ const loadTrainDocuments = async (filename) => {
 const loadTrainActivateDocuments = async (filename,agentId) => {
     try {
         
-        let agent = await codeGPTApi.getAgent(agentId)
-        let firstResponse = await codeGPTApi.loadTrainDocuments(filename);
+        let agent = await getCodeGPTApi().getAgent(agentId)
+        let firstResponse = await getCodeGPTApi().loadTrainDocuments(filename);
        
         let documentId = firstResponse.documentId ??(firstResponse.detail.match(/documentId: (\S+)/) || [null, null])[1];
 
@@ -177,7 +185,7 @@ const loadTrainActivateDocuments = async (filename,agentId) => {
                 payload.documentId = [...agent.documentId, documentId];
         } else payload.documentId = [payload.documentId];
         
-        let response = await codeGPTApi.updateAgent(agentId,payload)
+        let response = await getCodeGPTApi().updateAgent(agentId,payload)
 
         return `Document ready to work: ${JSON.stringify(response, null, 2)}`;
     } catch (error) {
@@ -187,7 +195,7 @@ const loadTrainActivateDocuments = async (filename,agentId) => {
 // Function to list all documents
 const listDocuments = async () => {
     try {
-        const response = await codeGPTApi.listDocuments()
+        const response = await getCodeGPTApi().listDocuments()
 
         return `Your documents: ${JSON.stringify(response, null, 2)}`;
     } catch (error) {
@@ -200,7 +208,7 @@ const getDocument = async (msg) => {
     try {
         const documentId = extractValueByKey(msg.text, `documentId`);
 
-        let response = await codeGPTApi.getDocument(documentId)
+        let response = await getCodeGPTApi().getDocument(documentId)
 
             return `Document info: ${JSON.stringify(response, null, 2)}`;
         
@@ -214,7 +222,7 @@ const deleteDocument = async (msg) => {
     try {
         const documentId = extractValueByKey(msg.text, `documentId`);
     
-        let response = await codeGPTApi.deleteDocument(documentId)
+        let response = await getCodeGPTApi().deleteDocument(documentId)
     
             return response.message?? response.detail;
     
@@ -226,7 +234,7 @@ const deleteDocument = async (msg) => {
 
 const defaultAgent = async (msg) => {
     try {
-        
+        const apiKey = instanciasBot[nameChatbot].apiKey 
         const nameValue = extractValueByKey(msg.text, `agentId`);
         const number = msg.sender.split("@")[0];
         if (nameValue !== null) {
@@ -251,7 +259,7 @@ const myAgent = async (msg) => {
     try {
        
         const number = msg.sender.split("@")[0];
-       
+        const apiKey = instanciasBot[nameChatbot].apiKey
         let agents = await readJsonAgents(apiKey)
       
         return `actual agent is ${agents[number]}`

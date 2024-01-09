@@ -1,6 +1,9 @@
 
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+
+
 
 const app= express();  
 
@@ -13,6 +16,10 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE'); //Autorizo las solicitudes tipo GET, POST, OPTIONS, PUT y DELETE.
     next();
 });
+
+
+app.use(express.static(path.join(__dirname, 'frontend', 'whatsapp-bot-frontend', 'build')));
+
 
 // server.use(morgan("dev"));
 

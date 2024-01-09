@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require('path');
-const { readJsonAgents } = require("./repositories/json-repository");
+const { readJsonAgents, updateJsonAgents, readApiKeyFromFile } = require("./repositories/json-repository");
 
 
 let instanciasBot = {};
@@ -66,8 +66,27 @@ const extractAgentProperties = (text) => {
     throw new Error(`Error extracting agent properties: ${error.message}`);
   }
 };
+
+const instanceCreation = async (chatbotId) => {
+  try {
+    let instancia = instanciasBot[chatbotId];
+
+    console.log("dentro de instancia",chatbotId)
+    let apiKey = readApiKeyFromFile()
+    let agent = 
+    instancia.apiKey = apiKey
+    instancia.agent = agent
+
+    return `bot ${chatbotId} creado`;
+  } catch (error) {
+    console.error('Error en creationBot:', error,chatbotId);
+    throw error;
+  }
+}
+
 module.exports = {
   extractValueByKey,
   extractAgentProperties,
   instanciasBot,
+  instanceCreation
 };

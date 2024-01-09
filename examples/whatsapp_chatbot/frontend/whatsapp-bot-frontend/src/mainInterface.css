@@ -1,0 +1,57 @@
+/* mainInterface.css */
+.main-interface {
+  background: #1e2b37;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90vw; /* Aumenta el ancho del componente */
+  margin: auto;
+}
+
+.data-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.data-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #4a90e2;
+  padding: 10px 0;
+}
+
+.data-field:last-child {
+  border-bottom: none;
+}
+
+.data-field span {
+  display: flex;
+  align-items: center;
+  color: #4a90e2;
+  margin-left: 20px; /* Añade margen a la izquierda del valor */
+}
+
+.data-field input {
+  width: 80%; /* Aumenta el ancho del campo de entrada */
+  background: #fff;
+  color: #1e2b37;
+  border: 1px solid #4a90e2;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.data-field button {
+  margin-left: 10px;
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.data-field button:hover {
+  background: #3a7cd0;
+}
