@@ -4,6 +4,7 @@ const {updateDataInFile} = require('../repositories/json-repository');
 const nameChatbot = process.env.NAME_CHATBOT;
 const CodeGPTApi = require("../services/code-gpt-api");
 const { getAgents } = require('./socketControllers/getAgents');
+const { verifyKey } = require('./socketControllers/verifyKey');
 let ioPromise; // Declarar una promesa para la instancia io
 
 /**
@@ -33,22 +34,33 @@ const configureSocket = async (server) => {
     });
 
     // Escuchar un evento 'enviarDatos' desde el cliente
-    socket.on('enviarDatos', (data) => {
+    socket.on('enviarDatos', async (data) => {
     console.log('Datos recibidos del cliente:', data);
-      updateDataInFile(data.apiKey,data.agent)
-      if (data.apiKey) instancia.apiKey = data.apiKey;
-      if (data.agent)  instancia.agent = data.agent;
-      console.log("apikey", instancia.apiKey)
+  
+  if (data.apiKey) {
+   
+      let response = await verifyKey(data.apiKey);
+      if (response) {
+      socket.emit('socketData', {apiKey : response});
+      return;
+      }
+    
+    instancia.apiKey = data.apiKey;
 
-    socket.emit('socketData', {
-      number: instancia.botNumber.replace("@s.whatsapp.net", ""),
-      apiKey  : data.apiKey ?? instancia.apiKey,
-      agent : data.agent ?? instancia.agent
-    });
-    });
+  }
+  if (data.agent) instancia.agent = data.agent;
+  updateDataInFile(data.apiKey,data.agent)
+
+  socket.emit('socketData', {
+    number: instancia.botNumber.replace("@s.whatsapp.net", ""),
+    apiKey: data.apiKey ?? instancia.apiKey,
+    agent: data.agent ?? instancia.agent
+  });
+});
 
     socket.on('requestAgents', async(data) => {
      let agents = await getAgents()
+     console.log(agents)
      socket.emit("agents", agents)
     })
   });
