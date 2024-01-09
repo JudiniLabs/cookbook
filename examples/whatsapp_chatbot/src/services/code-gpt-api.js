@@ -10,6 +10,7 @@ class CodeGPTApi {
     }
 
     async completion(agentId, messages) {
+        console.log(agentId)
             const url = `${this.generalUrl}/completion`;
             const payload = {
                 agent: agentId,

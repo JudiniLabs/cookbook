@@ -8,17 +8,18 @@ const socket = io('http://localhost:3001');
 
 const MainInterface = ({ onShowModalChange }) => {
   const [number, setNumber] = useState(0);
-
   const [apiKey, setApiKey] = useState('');
-  const [agent, setAgent] = useState('No tienes agente por defecto');
+  const [agentId, setAgentId] = useState(''); // instead of agent
   const [editMode, setEditMode] = useState({ apiKey: false, agent: false });
   const [agents, setAgents] = useState([]);
   const [apiKeyReceived, setApiKeyReceived] = useState(false); 
   const [error, setError] = useState(null); 
+  const [agent, setAgent] = useState("")
   
   useEffect(() => {
     socket.on('socketData', (data) => {
-      console.log(data);
+      console.log(data)
+      
       setNumber(data.number);
       if (data.apiKey) {
         if (typeof data.apiKey === 'string' && data.apiKey.toLowerCase().includes('error')) {
@@ -31,11 +32,10 @@ const MainInterface = ({ onShowModalChange }) => {
       if (data.agent && typeof data.agent === 'string' && data.agent.toLowerCase().includes('error')) {
         setError(data.agent);
       }
-      setAgent(data.agent || 'No tienes agente por defecto');
+      setAgent(data.agent || ''); // set agentId
     });
 
     socket.on('qr', (data) => {
-      console.log("data",data);
       onShowModalChange(data);
       if (typeof data === 'string' && data.toLowerCase().includes('error')) {
         setError(data);
@@ -51,11 +51,12 @@ const MainInterface = ({ onShowModalChange }) => {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const dataToSend = {};
+    console.log(apiKey, agentId)
     if (apiKey !== '') {
       dataToSend.apiKey = apiKey;
     }
-    if (agent !== '' && agent !== 'No tienes agente por defecto') {
-      dataToSend.agent = agent;
+    if (agentId !== '') {
+      dataToSend.agent = agentId; // send agentId instead of agent
     }
     if (Object.keys(dataToSend).length > 0) {
       socket.emit("enviarDatos", dataToSend);
@@ -81,6 +82,7 @@ const MainInterface = ({ onShowModalChange }) => {
   useEffect(() => {
     socket.on('agents', (data) => {
       if (Array.isArray(data)) {
+        console.log("data", data)
         setAgents(data);
       } else if (typeof data === 'string' && data.toLowerCase().includes('error')) {
         setError(data);
@@ -110,14 +112,14 @@ const MainInterface = ({ onShowModalChange }) => {
         {apiKeyReceived && (
           <DataField
             label="Agente conectado actualmente"
-            value={agent}
+            value={agent.name}
             editMode={editMode.agent}
             onEditClick={() => handleEditClick('agent')}
             onCancelClick={() => handleCancelClick('agent')}
           >
-            <select value={agent} onChange={(e) => setAgent(e.target.value)}>
+            <select value={agentId} onChange={(e) => setAgentId(e.target.value)}>
               {agents.map((agent) => (
-                <option key={agent} value={agent}>{agent}</option>
+                <option key={agent.id} value={agent.id}>{agent.name}</option>
               ))}
             </select>
           </DataField>

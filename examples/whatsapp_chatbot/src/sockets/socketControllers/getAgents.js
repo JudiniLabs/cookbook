@@ -16,9 +16,16 @@ function getCodeGPTApi() {
 const getAgents = async () => {
   try {
     let response = await getCodeGPTApi().listAgents();
-    let agentIds = response.map(agent => agent.name);
-   
-    return agentIds
+    return response
+  } catch (error) {
+    return error.message
+  }
+}
+
+const getAgentById = async (agentId) => {
+  try {
+    let response = await getCodeGPTApi().getAgent(agentId);
+    return response
   } catch (error) {
     return error.message
   }
@@ -26,5 +33,6 @@ const getAgents = async () => {
 
  
 module.exports  = {
-    getAgents
+    getAgents,
+    getAgentById
 }
