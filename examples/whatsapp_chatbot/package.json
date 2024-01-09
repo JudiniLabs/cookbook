@@ -42,6 +42,7 @@
     "qrcode-terminal": "^0.12.0",
     "rimraf": "^3.0.2",
     "socket.io": "^4.7.3",
-    "socket.io-client": "^4.7.3"
+    "socket.io-client": "^4.7.3",
+    "whatsapp-bot-frontend": "file:./frontend/whatsapp-bot-frontend"
   }
 }
