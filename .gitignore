@@ -4,3 +4,4 @@
 .vscode*
 .chainlit
 __pycache__
+node_modules
