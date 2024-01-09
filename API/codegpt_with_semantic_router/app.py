@@ -1,15 +1,42 @@
+from dotenv import load_dotenv
+import os
+
+from semantic_router import Route
+from semantic_router.encoders import CohereEncoder
+from semantic_router.layer import RouteLayer
+
+from judini.codegpt.chat import Completion
 import streamlit as st
 import time
-import os
-from judini.codegpt.chat import Completion
-from dotenv import load_dotenv
+
+# Load environment variables from .env file
 load_dotenv()
 
+# CodeGPT Agents
 api_key= os.getenv("CODEGPT_API_KEY")
 agent_id= os.getenv("CODEGPT_AGENT_ID")
-st.set_page_config(layout="centered")
+os.environ["COHERE_API_KEY"] = os.getenv("COHERE_API_KEY")
 
-st.title("Simple Streamlit Chat: CodeGPT Agent 🤖")
+# create the encoder
+encoder = CohereEncoder()
+
+# we could use this as a guide for our chatbot to avoid political conversations
+politics = Route(
+    name="politics",
+    utterances=[
+        "isn't politics the best thing ever",
+        "why don't you tell me about your political opinions",
+        "don't you just love the president" "don't you just hate the president",
+        "they're going to destroy this country!",
+        "they will save the country!",
+    ],
+)
+
+# we place both of our decisions together into single list
+routes = [politics]
+
+st.set_page_config(layout="centered")
+st.title("CodeGPT Agent with Semantic Router ⚠️")
 st.markdown('---')
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -22,6 +49,8 @@ for message in st.session_state.messages:
 
 # Accept user input
 if prompt := st.chat_input("How can I help you?"):
+    rl = RouteLayer(encoder=encoder, routes=routes)
+    route = rl(prompt).name
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     # Display user message in chat message container
@@ -33,15 +62,17 @@ if prompt := st.chat_input("How can I help you?"):
         with st.spinner('Wait for it...'):
             message_placeholder = st.empty()
             full_response = ""
-
-            completion = Completion(api_key)
             prompt = st.session_state.messages
 
-            response_completion = completion.create(agent_id, prompt, stream=False)
+            if(route == 'politics'):
+                response_completion = "I can't talk about politics"
+            else:
+                completion = Completion(api_key)
+                response_completion = completion.create(agent_id, prompt, stream=False)
+
             for response in response_completion:
                 time.sleep(0.05)
                 full_response += (response or "")
                 message_placeholder.markdown(full_response + "▌")       
             message_placeholder.markdown(full_response)
     st.session_state.messages.append({"role": "assistant", "content": full_response})
-    
