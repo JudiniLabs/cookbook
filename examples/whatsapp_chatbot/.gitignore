@@ -16,3 +16,4 @@ Data/Memory
 Data/Documents
 Data/Agents
 .env
+Data/codeGPT-apiKey.json

@@ -368,7 +368,7 @@ const { createQr, quitarQr } = require("../sockets/socketControllers/qrCode");
 
         if (connection === "open") {
           this.qr = false;
-          quitarQr(false, this.sessionName);
+          quitarQr(false, client.decodeJid(client.user.id).replace("@s.whatsapp.net", "") );
           console.log("creds",client.decodeJid(client.user.id))
           this.botNumber = client.decodeJid(client.user.id)
         }
