@@ -1,2 +1,3 @@
 name = "Integrations"
 description ="Integrations with the CodeGPT SDK"
+priority=4
