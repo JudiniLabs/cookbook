@@ -1,0 +1,9 @@
+# Libraries
+
+pip install openai
+pip install cohere
+pip install lida
+pip install -q streamlit
+pip install fitz
+pip install tiktoken
+pip install pymupdf
