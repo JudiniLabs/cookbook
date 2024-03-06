@@ -1,12 +1,13 @@
 import streamlit as st
 import time
 import os
-from judini.codegpt.chat import Completion
+from judini.codegpt import CodeGPTPlus
 from dotenv import load_dotenv
 load_dotenv()
 
 api_key= os.getenv("CODEGPT_API_KEY")
 agent_id= os.getenv("CODEGPT_AGENT_ID")
+org_id = os.getenv("ORG_ID")
 st.set_page_config(layout="centered")
 
 st.title("Simple Streamlit Chat: CodeGPT Agent 🤖")
@@ -34,10 +35,11 @@ if prompt := st.chat_input("How can I help you?"):
             message_placeholder = st.empty()
             full_response = ""
 
-            completion = Completion(api_key)
-            prompt = st.session_state.messages
+            codegpt = CodeGPTPlus(api_key=api_key, org_id=org_id)
+            messages = st.session_state.messages
 
-            response_completion = completion.create(agent_id, prompt, stream=False)
+            response_completion = codegpt.chat_completion(agent_id=agent_id,
+                               messages=messages, stream=True)
             for response in response_completion:
                 time.sleep(0.05)
                 full_response += (response or "")
