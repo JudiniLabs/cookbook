@@ -195,6 +195,8 @@ def updateAgent(message):
                     return
             data[key] = value
 
+            
+
     # Check if there is data to update
     if not data:
         bot.reply_to(message, "No update parameters were found in the message.")
