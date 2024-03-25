@@ -1,3 +1,0 @@
-name = "API"
-description ="Examples with CodeGPT API"
-priority=1
