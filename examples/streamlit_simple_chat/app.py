@@ -39,7 +39,7 @@ if prompt := st.chat_input("How can I help you?"):
             messages = st.session_state.messages
 
             response_completion = codegpt.chat_completion(agent_id=agent_id,
-                               messages=messages, stream=True)
+                               messages=messages, stream=True) #yout could use stream=False
             for response in response_completion:
                 time.sleep(0.05)
                 full_response += (response or "")
